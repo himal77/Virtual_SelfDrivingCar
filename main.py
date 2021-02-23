@@ -4,7 +4,7 @@ pygame.init()
 
 # initializing window and loading images
 window = pygame.display.set_mode((1200, 400))
-track = pygame.image.load("images/track3.png")
+track = pygame.image.load("images/track6.png")
 car = pygame.image.load("images/tesla.png")
 
 carWidth = 30
@@ -15,7 +15,7 @@ carY = 280
 camRadius = 5
 camThickness = 5
 camColor = (0, 255, 0)
-camFocalDist = 20
+camFocalDist = 25
 camOffsetX = 0
 camOffsetY = 0
 
@@ -50,11 +50,34 @@ while isDriving:
         car = pygame.transform.rotate(car, -90)
         camOffsetX = 30
 
+    elif direction == 'right' and rightPixel != 255 and downPixel == 255:
+        direction = 'down'
+        carX = carX + 30
+        car = pygame.transform.rotate(car, -90)
+        camOffsetY = 30
+        camOffsetX = 0
+
+    elif direction == 'down' and downPixel != 255 and rightPixel == 255:
+        direction = 'right'
+        carY += 30
+        car = pygame.transform.rotate(car, 90)
+        camOffsetY = 0
+        camOffsetX = 30
+
+    elif direction == 'right' and rightPixel != 255 and upPixel == 255:
+        direction = 'up'
+        carX += 30
+        car = pygame.transform.rotate(car, 90)
+        camOffsetY = 0
+        camOffsetX = 0
+
     # driving
     if direction == 'up' and upPixel == 255:
         carY -= 1
     elif direction == 'right' and rightPixel == 255:
         carX += 1
+    elif direction == 'down' and downPixel == 255:
+        carY += 1
 
     # drawing track, car and window
     window.blit(track, (0, 0))
